@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Asistencia</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Lista de Registros de Asistencia</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Asistencia</th>
+                <th>ID Empleado</th>
+                <th>Observaciones</th>
+                <th>Fecha</th>
+                <th>ID Periodo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asistencia in asistencias %}
+            <tr>
+                <td>{{ asistencia.id_asistencia }}</td>
+                <td>{{ asistencia.id_empleado }}</td>
+                <td>{{ asistencia.observaciones }}</td>
+                <td>{{ asistencia.fecha }}</td>
+                <td>{{ asistencia.id_periodo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

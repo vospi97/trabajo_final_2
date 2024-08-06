@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratos</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Lista de Contratos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Contrato</th>
+                <th>ID Empleado</th>
+                <th>ID Departamento</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Tipo de Contrato</th>
+                <th>Cargo</th>
+                <th>Salario Base</th>
+                <th>Email Empresarial</th>
+                <th>Fecha Desvinculación</th>
+                <th>EPS</th>
+                <th>ARL</th>
+                <th>Pensiones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contrato in contratos %}
+            <tr>
+                <td>{{ contrato.id_contrato }}</td>
+                <td>{{ contrato.id_empleado }}</td>
+                <td>{{ contrato.id_departamento }}</td>
+                <td>{{ contrato.fecha_inicio }}</td>
+                <td>{{ contrato.fecha_fin }}</td>
+                <td>{{ contrato.tipo_contrato }}</td>
+                <td>{{ contrato.cargo }}</td>
+                <td>{{ contrato.salario_base }}</td>
+                <td>{{ contrato.email_empresarial }}</td>
+                <td>{{ contrato.fecha_desvinculacion }}</td>
+                <td>{{ contrato.eps }}</td>
+                <td>{{ contrato.arl }}</td>
+                <td>{{ contrato.pensiones }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

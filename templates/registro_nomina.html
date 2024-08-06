@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Nómina</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Lista de Registros de Nómina</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Nómina</th>
+                <th>ID Contrato</th>
+                <th>Fecha de Pago</th>
+                <th>Salario Base</th>
+                <th>Deducciones</th>
+                <th>Salario Neto</th>
+                <th>ID Periodo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nomina in nominas %}
+            <tr>
+                <td>{{ nomina.id_nomina }}</td>
+                <td>{{ nomina.id_contrato }}</td>
+                <td>{{ nomina.fecha_pago }}</td>
+                <td>{{ nomina.salario_base }}</td>
+                <td>{{ nomina.deducciones }}</td>
+                <td>{{ nomina.salario_neto }}</td>
+                <td>{{ nomina.id_periodo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

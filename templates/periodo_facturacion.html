@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodo de Facturación</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Lista de Períodos de Facturación</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Periodo</th>
+                <th>Inicio Periodo</th>
+                <th>Final Periodo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for periodo in periodos %}
+            <tr>
+                <td>{{ periodo.id_periodo }}</td>
+                <td>{{ periodo.inicio_periodo }}</td>
+                <td>{{ periodo.final_periodo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
