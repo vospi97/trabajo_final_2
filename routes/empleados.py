@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from config.db import conn
 from models.empleado import empleados as empleados_model
 from schemas.empleado import Empleado, EmpleadoUpdate
+from typing import Optional
 
 # Crear instancia de APIRouter
 empleados = APIRouter()
@@ -117,3 +118,38 @@ def eliminar_empleado(cc: str):
         conn.rollback()
         print(f"Error al eliminar el empleado: {e}")
         raise HTTPException(status_code=500, detail="Error al eliminar el empleado")
+
+# Endpoint para obtener un empleado por ID y/o CC
+@empleados.get("/empleados/buscar")
+def get_empleado(id_empleado: Optional[int] = None, cc: Optional[str] = None):
+    """
+    Retorna los datos de un empleado por su ID y/o número de cédula (CC).
+    Si ambos parámetros se proporcionan, se verifica que correspondan al mismo empleado.
+
+    Args:
+        id_empleado (int, opcional): ID del empleado a consultar.
+        cc (str, opcional): Número de cédula del empleado a consultar.
+
+    Returns:
+        dict: Datos del empleado.
+    """
+    try:
+        query = empleados_model.select()
+        
+        if id_empleado is not None and cc is not None:
+            query = query.where((empleados_model.c.id_empleado == id_empleado) & (empleados_model.c.cc == cc))
+        elif id_empleado is not None:
+            query = query.where(empleados_model.c.id_empleado == id_empleado)
+        elif cc is not None:
+            query = query.where(empleados_model.c.cc == cc)
+        else:
+            raise HTTPException(status_code=400, detail="Debe proporcionar al menos un criterio de búsqueda (id_empleado o cc)")
+
+        empleado = conn.execute(query).first()
+        if not empleado:
+            raise HTTPException(status_code=404, detail="Empleado no encontrado")
+        
+        return dict(empleado._mapping)
+    except SQLAlchemyError as e:
+        print(f"Error al obtener empleado: {e}")
+        raise HTTPException(status_code=500, detail="Error al obtener empleado")
