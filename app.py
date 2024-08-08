@@ -7,6 +7,8 @@ from routes.periodo_facturacion import periodo_facturacion
 from routes.registro_asistencia import registro_asistencia
 from routes.registro_nomina import registro_nomina
 
+from routes.factura import factura_router
+
 # Crear instancia de FastAPI
 app = FastAPI()
 
@@ -18,6 +20,8 @@ app.include_router(contratos, prefix="/contratos", tags=["Contratos"])
 app.include_router(evaluacion_desempeno, prefix="/evaluacion-desempeno", tags=["Evaluación de Desempeño"])
 app.include_router(registro_asistencia, prefix="/registro-asistencia", tags=["Registro de Asistencia"])
 app.include_router(registro_nomina, prefix="/registro-nomina", tags=["Registro de Nómina"])
+
+app.include_router(factura_router, prefix="/factura", tags=["Factura"])
 
 # Ruta de inicio
 @app.get("/", tags=["Home"])
