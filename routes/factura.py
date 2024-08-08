@@ -37,7 +37,7 @@ def generar_facturas(id_periodo: int):
                 factura_model.insert().values(
                     id_contrato=id_contrato,
                     id_periodo=id_periodo,
-                    monto_total=monto_total,
+                    monto_total=monto_total/2,
                     fecha_emision=fecha_emision
                 )
             )

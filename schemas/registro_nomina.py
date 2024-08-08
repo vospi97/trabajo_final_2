@@ -16,7 +16,7 @@ class RegistroNomina(BaseModel):
     class Config:
         orm_mode = True  # Habilita la compatibilidad con ORMs
 
-# Esquema para la actualización de un registro de nómina existente
+# Esquema para la actualización de un registro de nómina existente 
 class RegistroNominaUpdate(BaseModel):
     id_contrato: Optional[int] = None  # ID del contrato asociado, campo opcional
     fecha_pago: Optional[date] = None  # Fecha de pago, campo opcional
