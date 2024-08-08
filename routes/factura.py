@@ -9,16 +9,15 @@ from sqlalchemy import text
 
 factura_router = APIRouter()
 
-def calcular_monto_total(id_empleado: int, id_periodo: int) -> Decimal:
+def calcular_monto_total(id_contrato: int, id_periodo: int) -> Decimal:
     try:
         query = text(
-            "SELECT salario_neto FROM registro_nomina WHERE id_contrato = "
-            "(SELECT id_contrato FROM public.contratos WHERE id_empleado = :id_empleado) AND id_periodo = :id_periodo"
+            "SELECT salario_base FROM contratos WHERE id_contrato = :id_contrato"
         )
-        result = conn.execute(query, {"id_empleado": id_empleado, "id_periodo": id_periodo}).fetchall()
+        result = conn.execute(query, {"id_contrato": id_contrato}).fetchone()
 
-        monto_total = sum(row['salario_neto'] for row in result)
-        return Decimal(monto_total)
+        salario_base = result[0]  # Accede al valor de la primera columna del resultado
+        return Decimal(salario_base)
     except SQLAlchemyError as e:
         print(f"Error al calcular el monto total: {e}")
         raise HTTPException(status_code=500, detail="Error al calcular el monto total")
@@ -26,17 +25,17 @@ def calcular_monto_total(id_empleado: int, id_periodo: int) -> Decimal:
 @factura_router.post("/generar_facturas")
 def generar_facturas(id_periodo: int):
     try:
-        query = text("SELECT id_empleado FROM public.contratos WHERE id_empleado IS NOT NULL")
-        empleados = conn.execute(query).fetchall()
+        query = text("SELECT id_contrato FROM contratos WHERE id_contrato IS NOT NULL")
+        contratos = conn.execute(query).fetchall()
         
-        for empleado in empleados:
-            id_empleado = empleado[0]  # Accede al primer elemento de la tupla
-            monto_total = calcular_monto_total(id_empleado, id_periodo)
+        for contrato in contratos:
+            id_contrato = contrato[0]  # Accede al primer elemento de la tupla
+            monto_total = calcular_monto_total(id_contrato, id_periodo)
             fecha_emision = date.today()
             
             conn.execute(
                 factura_model.insert().values(
-                    id_empleado=id_empleado,
+                    id_contrato=id_contrato,
                     id_periodo=id_periodo,
                     monto_total=monto_total,
                     fecha_emision=fecha_emision
